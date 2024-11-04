@@ -1,4 +1,4 @@
 .idea
 .env
 envs
-/grpc/bin
+/bin
