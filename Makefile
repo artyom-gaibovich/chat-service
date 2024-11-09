@@ -18,7 +18,6 @@ generate_note_api:
 	api/note_v1/note.proto
 
 
-
 proto_generate_chat_api:
 	mkdir -p pkg/chat_v1
 	protoc --proto_path api/chat_v1 \
@@ -27,3 +26,10 @@ proto_generate_chat_api:
 	--go-grpc_out=pkg/chat_v1 --go-grpc_opt=paths=source_relative \
 	--plugin=protoc-gen-go-grpc=bin/protoc-gen-go-grpc \
 	api/chat_v1/chat.proto
+
+build:
+	GOOS=linux GOARCH=amd64 go build -o service_linux cmd/chat_grpc_server/main.go
+
+
+copy_to_server:
+	sudo scp service_linux root@45.10.41.200:/home
