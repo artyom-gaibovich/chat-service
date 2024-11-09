@@ -7,7 +7,7 @@ on:
     branches: [ main, master ]
 
 env:
-  REGISTRY: "artyomguybov"
+  REGISTRY: "docker.io"
   IMAGE_NAME: "chat-service"
   CONTAINER_NAME: "chat-service-container"
 
@@ -23,13 +23,13 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Login to Docker Registry
-        run: docker login -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }} $REGISTRY
+        run: docker login -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }} docker.io
 
       - name: Build and Push Docker Image
         run: |
           TAG_NAME=$(echo $GITHUB_SHA | head -c7)
           docker buildx create --use
-          docker buildx build --no-cache --push --tag $REGISTRY/$IMAGE_NAME:$TAG_NAME .
+          docker buildx build --no-cache --push --tag artyomguybov/chat-service:v0.0.1 .
 
   deploy-image:
     runs-on: ubuntu-latest
@@ -46,10 +46,10 @@ jobs:
           script: |
             TAG_NAME=$(echo $GITHUB_SHA | head -c7)
             
-            docker login -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }} $REGISTRY
+            docker login -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }} docker.io
             
-            docker stop $CONTAINER_NAME
+            docker stop chat-service-container
             
-            docker rm $CONTAINER_NAME
+            docker rm chat-service-container
             
-            docker run -d -p 50051:50051 --name $CONTAINER_NAME -t $REGISTRY/$IMAGE_NAME:$TAG_NAME
+            docker run -d -p 50051:50051 --name chat-service-container -t artyomguybov/chat-service:v0.0.1
