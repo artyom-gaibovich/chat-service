@@ -4,7 +4,6 @@ import (
 	"chat-service/pkg/chat_v1"
 	"context"
 	"fmt"
-	"github.com/brianvoe/gofakeit"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"google.golang.org/protobuf/types/known/emptypb"
@@ -36,7 +35,7 @@ func main() {
 }
 
 func (s *server) Create(context.Context, *chat_v1.CreateRequest) (*chat_v1.CreateResponse, error) {
-	return &chat_v1.CreateResponse{Id: gofakeit.Int64()}, nil
+	return &chat_v1.CreateResponse{Id: 50505050050505}, nil
 }
 func (s *server) Delete(context.Context, *chat_v1.DeleteRequest) (*emptypb.Empty, error) {
 	return nil, nil
