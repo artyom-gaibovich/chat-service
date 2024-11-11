@@ -5,7 +5,7 @@ COPY . /github.com/artyom-gaibovich/chat-service/source/
 WORKDIR /github.com/artyom-gaibovich/chat-service/source/
 
 RUN go mod download
-RUN go build -o ./bin/chat_service cmd/chat_grpc_server/main.go
+RUN go build -o ./bin/chat_service cmd/note_grpc_server_v1/main.go
 
 FROM alpine:latest
 
